@@ -6,7 +6,7 @@ visual = {
     },
 
     raw: function(text) {
-      return raw;
+      return text;
     }
   },
 
