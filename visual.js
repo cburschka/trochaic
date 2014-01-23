@@ -1,5 +1,12 @@
 visual = {
   format: {
+    /**
+     * Escape < and > in a text.
+     *
+     * Wherever possible, this function should be avoided in favor of DOM
+     * and jQuery methods like $.text() and Text().
+     * Only use it when working on strings.
+     */
     plain: function(text) {
       var replacers = {'<': '&lt;', '>': '&gt;', '&':'&amp;'};
       return text.replace(/[<>&]/g, function(x) { return replacers[x]; });
