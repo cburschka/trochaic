@@ -8,8 +8,8 @@ visual = {
      * Only use it when working on strings.
      */
     plain: function(text) {
-      var replacers = {'<': '&lt;', '>': '&gt;', '&':'&amp;'};
-      return text.replace(/[<>&]/g, function(x) { return replacers[x]; });
+      var replacers = {'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;'};
+      return text.replace(/[<>&"]/g, function(x) { return replacers[x]; });
     },
 
     raw: function(text) {
