@@ -8,7 +8,7 @@ visual = {
      * Only use it when working on strings.
      */
     plain: function(text) {
-      var replacers = {'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;'};
+      var replacers = {'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;'};
       return text ? text.replace(/[<>&"]/g, function(x) { return replacers[x]; }) : '';
     },
 
