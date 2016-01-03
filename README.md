@@ -26,6 +26,10 @@ var types = {
     return "string";
   },
 
+  type2: function(var) {
+    return $('<span>Markup</span>');
+  },
+
   person: function(person) {
     return person.firstname + " " + person.lastname;
   }
