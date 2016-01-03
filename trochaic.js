@@ -29,7 +29,7 @@ var Trochaic = (function() {
    *
    * If "type" is not given, it will default to "variable1".
    */
-  var pattern = /{(\w*):([\w:]*)|(\w+)}/g;
+  var pattern = /{(?:(\w*):([\w:]*)|(\w+))}/g;
 
   function render(processor) {
     /**
