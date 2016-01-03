@@ -15,16 +15,21 @@ var Trochaic = (function() {
   }
 
   /**
-   * placeholder = "{" , [ [ type ] , ":" , { [ argument ] , ":" } ] key "}"
+   * placeholder = "{" ,
+   *                (
+   *                  ( [ type ] , ":" , variable1 , { ":" , [ variable ] } )
+   *                  | variable1
+   *                ) ,
+   *               "}"
    * type        = identifier
-   * argument    = identifier
-   * key         = identifier
+   * variable1   = variable
+   * variable    = identifier
    * identifier  = character, { character }
    * character   = alphabetic | digit | "_"
    *
-   * If "type" is not given, it will default to "key".
+   * If "type" is not given, it will default to "variable1".
    */
-  var pattern = /({(?:(\w*):(?:([\w:]*):)?)?(\w+)})/g;
+  var pattern = /{(\w*):([\w:]*)|(\w+)}/g;
 
   function render(processor) {
     /**
@@ -64,12 +69,12 @@ var Trochaic = (function() {
        *
        * @return {string|object} The rendered output.
        */
-      return function(rep, type, args, key) {
-        return (variables && key in variables) ?
-          (types[type || key] || id).apply(this, 
-            [variables[key]].concat(args && args.split(":"))
-          )
-          : rep;
+      return function(type, args, arg) {
+        return (types[type || key] || id).apply(this,
+          [args ? args.split(":") : arg].map(function(i) {
+            return i ? variables[i] : undefined
+          })
+        )
       }
     }
   }
