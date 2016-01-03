@@ -72,9 +72,9 @@ var Trochaic = (function() {
       return function(type, args, arg) {
         return (types[type || key] || id).apply(this,
           [args ? args.split(":") : arg].map(function(i) {
-            return i ? variables[i] : undefined
+            return i ? variables[i] : undefined;
           })
-        )
+        );
       }
     }
   }
