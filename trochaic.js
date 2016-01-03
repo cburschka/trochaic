@@ -90,7 +90,9 @@ var Trochaic = (function() {
    */
   function get(query, object) {
     query = query.split('.');
-    for (var i in query) object = object && object[query[i]];
+    for (var i in query) {
+      object = object && object[query[i]] || (typeof object == 'function' && object(query[i]));
+    }
     return object;
   }
 
