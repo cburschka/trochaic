@@ -14,6 +14,18 @@ var Trochaic = (function() {
     return render(processor(types));
   }
 
+  /**
+   * placeholder = "{" , [ [ type ] , ":" , { [ argument ] , ":" } ] key "}"
+   * type        = identifier
+   * argument    = identifier
+   * key         = identifier
+   * identifier  = character, { character }
+   * character   = alphabetic | digit | "_"
+   *
+   * If "type" is not given, it will default to "key".
+   */
+  var pattern = /({(?:(\w*):(?:([\w:]*):)?)?(\w+)})/g;
+
   function render(processor) {
     /**
      * Render a template.
@@ -26,7 +38,7 @@ var Trochaic = (function() {
     return function (template, variables) {
       if (typeof(template) === 'string') template = $('<span>').text(template);
       template.find('*').addBack() // include all descendants and the top element.
-        .replaceText(/({(?:(\w+):)?(\w+)})/g, processor(variables));
+        .replaceText(pattern, processor(variables));
       return template;
     }
   }
@@ -47,14 +59,17 @@ var Trochaic = (function() {
        *
        * @param {string} rep The entire placeholder.
        * @param {string} type The renderer (possibly empty).
+       * @param {string} args A colon-separated string of arguments (or null).
        * @param {key} key The variable name.
        *
        * @return {string|object} The rendered output.
        */
-      return function(rep, type, key) {
+      return function(rep, type, args, key) {
         return (variables && key in variables) ?
-               (types[type || key] || id)(variables[key])
-             : rep;
+          (types[type || key] || id).apply(this, 
+            [variables[key]].concat(args && args.split(":"))
+          )
+          : rep;
       }
     }
   }
