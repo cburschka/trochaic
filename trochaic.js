@@ -4,7 +4,7 @@
  * Copyright 2014-2015 Christoph Burschka
  * Released under the MIT license.
  */
-var Trochaic = (function() {
+var Trochaic = (function($) {
   /**
    * Initialize the template engine.
    *
@@ -97,4 +97,4 @@ var Trochaic = (function() {
   }
 
   return Trochaic;
-})();
+})(jQuery);
