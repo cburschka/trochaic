@@ -55,23 +55,23 @@ var Trochaic = (function() {
    * (once on initialization), the variables (once per invocation), and the
    * placeholder (once per match).
    *
-   * types -> variables -> (rep, type, key) -> output
+   * types -> variables -> (rep, type, args, arg) -> output
    */
   function processor(types) {
     return function(variables) {
       /**
        * Process a placeholder.
        *
-       * @param {string} rep The entire placeholder.
        * @param {string} type The renderer (possibly empty).
-       * @param {string} args A colon-separated string of arguments (or null).
-       * @param {key} key The variable name.
+       * @param {string} args A colon-separated string of variable names (or null).
+       * @param {string} arg A single variable name.
        *
        * @return {string|object} The rendered output.
        */
       return function(type, args, arg) {
-        return (types[type || key] || id).apply(this,
-          [args ? args.split(":") : arg].map(function(i) {
+        args = [args ? args.split(":") : arg];
+        return (types[type || args[0]] || id).apply(this,
+          args.map(function(i) {
             return i ? variables[i] : undefined;
           })
         );
