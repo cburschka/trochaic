@@ -35,7 +35,7 @@ var types = {
 Calling `Trochaic({...})` will build and return a render function that can be
 used to render any template:
 
-```
+```js
 var render = Trochaic(types)
 render("Hello, {person}", {
   person: {
