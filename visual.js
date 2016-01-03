@@ -1,24 +1,37 @@
-visual = {
-  format: {},
+/*!
+ * Trochaic
+ *
+ * Copyright 2014-2015 Christoph Burschka
+ * Released under the MIT license.
+ */
+var Trochaic = (function() {
+  /**
+   * Initialize the template engine.
+   *
+   * @param {object} types An object containing rendering functions.
+   */
+  function Trochaic(types) {
+    return {
+      types: types,
+      render: render
+    };
+  }
 
   /**
-   * Splice variables into a template with format identifiers.
+   * Render a template.
    *
-   * @param {string|object} text A template, either a string or jQuery content.
-   * @param {Object} variables A hash keyed by variable name.
+   * @param {string|object} template A template, either a string or jQuery content.
+   * @param {object} variables A hash keyed by variable name.
    *
-   * Any placeholder with a corresponding variable will be replaced.
-   * The variable will be processed either by the specified format, or the one
-   * matching its name, or the "plaintext" formatter by default.
-   * @return {string} The rendered text.
+   * @return {object} The rendered DOM tree.
    */
-  formatText: function(text, variables) {
+  function render(template, variables) {
     if (typeof(text) === 'string') text = $('<span>').text(text);
     text.find('*').addBack() // include all descendants and the top element.
-      .replaceText(/({(?:(\w+):)?(\w+)})/g, function(rep, format, key) {
+      .replaceText(/({(?:(\w+):)?(\w+)})/g, function(rep, type, key) {
         if (variables && key in variables) {
-          if ((format || key) in visual.format) {
-            return visual.format[format || key](variables[key]);
+          if ((type || key) in this.types) {
+            return this.types[type || key](variables[key]);
           }
           return variables[key];
         }
@@ -26,4 +39,6 @@ visual = {
       });
     return text;
   }
-};
+
+  return Trochaic;
+})();
