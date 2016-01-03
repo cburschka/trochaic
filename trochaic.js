@@ -12,8 +12,8 @@ var Trochaic = (function() {
    */
   function Trochaic(types) {
     return {
-      types: types,
-      render: render
+      processor: processor(types),
+      render: render,
     };
   }
 
@@ -28,16 +28,34 @@ var Trochaic = (function() {
   function render(template, variables) {
     if (typeof(template) === 'string') template = $('<span>').text(template);
     template.find('*').addBack() // include all descendants and the top element.
-      .replaceText(/({(?:(\w+):)?(\w+)})/g, function(rep, type, key) {
-        if (variables && key in variables) {
-          if ((type || key) in this.types) {
-            return this.types[type || key](variables[key]);
-          }
-          return variables[key];
-        }
-        return rep;
-      });
+      .replaceText(/({(?:(\w+):)?(\w+)})/g, this.processor(variables));
     return template;
+  }
+
+  /**
+   * Generate a processor generator.
+   *
+   * This function is curried to successively fill the scope with the types
+   * (once on initialization), the variables (once per invocation), and the
+   * placeholder (once per match).
+   *
+   * types -> variables -> (rep, type, key) -> output
+   */
+  function processor(types) {
+    return function(variables) {
+      return function(rep, type, key) {
+        return (variables && key in variables) ?
+               (types[type || key] || id)(variables[key])
+             : rep;
+      }
+    }
+  }
+
+  /**
+   * Identity function.
+   */
+  function id(x) {
+    return x;
   }
 
   return Trochaic;
