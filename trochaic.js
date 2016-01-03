@@ -24,12 +24,13 @@ var Trochaic = (function() {
    * type        = identifier
    * variable1   = variable
    * variable    = identifier
-   * identifier  = character, { character }
+   * identifier  = token , { "." , token }
+   * token       = character, { character }
    * character   = alphabetic | digit | "_"
    *
    * If "type" is not given, it will default to "variable1".
    */
-  var pattern = /{(?:(\w*):([\w:]*)|(\w+))}/g;
+  var pattern = /{(?:([\w.]*):([\w:.]*)|([\w.]+))}/g;
 
   function render(processor) {
     /**
@@ -70,8 +71,8 @@ var Trochaic = (function() {
        */
       return function(type, args, arg) {
         args = [args ? args.split(":") : arg];
-        return (types[type || args[0]] || id).apply(this,
-          args.map(function(i) { return i ? variables[i] : undefined; })
+        return (get(type || args[0], types) || id).apply(this,
+          args.map(function(i) { return i ? get(i, variables) : undefined; })
         );
       }
     }
@@ -82,6 +83,15 @@ var Trochaic = (function() {
    */
   function id(x) {
     return x;
+  }
+
+  /**
+   * Retrieve a dot-separated path of properties from an object.
+   */
+  function get(query, object) {
+    query = query.split('.');
+    for (var i in query) object = object && object[query[i]];
+    return object;
   }
 
   return Trochaic;
