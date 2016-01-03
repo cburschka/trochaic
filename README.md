@@ -16,6 +16,11 @@ The placeholder syntax is one of the following:
   the first variable's name as the render type.
 * `{var1}` is short for `{:var1}`.
 
+## Requirements
+
+Both [jQuery](https://jquery.com/) and [jQuery replaceText](https://github.com/cburschka/jquery-replacetext)
+must be installed to use this library.
+
 ## Usage
 
 A renderer system is a standard object of the form:
