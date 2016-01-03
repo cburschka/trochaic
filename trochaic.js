@@ -26,8 +26,8 @@ var Trochaic = (function() {
    * @return {object} The rendered DOM tree.
    */
   function render(template, variables) {
-    if (typeof(text) === 'string') text = $('<span>').text(text);
-    text.find('*').addBack() // include all descendants and the top element.
+    if (typeof(template) === 'string') template = $('<span>').text(template);
+    template.find('*').addBack() // include all descendants and the top element.
       .replaceText(/({(?:(\w+):)?(\w+)})/g, function(rep, type, key) {
         if (variables && key in variables) {
           if ((type || key) in this.types) {
@@ -37,7 +37,7 @@ var Trochaic = (function() {
         }
         return rep;
       });
-    return text;
+    return template;
   }
 
   return Trochaic;
