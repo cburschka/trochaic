@@ -42,6 +42,15 @@ var Trochaic = (function() {
    */
   function processor(types) {
     return function(variables) {
+      /**
+       * Process a placeholder.
+       *
+       * @param {string} rep The entire placeholder.
+       * @param {string} type The renderer (possibly empty).
+       * @param {key} key The variable name.
+       *
+       * @return {string|object} The rendered output.
+       */
       return function(rep, type, key) {
         return (variables && key in variables) ?
                (types[type || key] || id)(variables[key])
