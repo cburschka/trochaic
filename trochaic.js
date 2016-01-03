@@ -11,25 +11,24 @@ var Trochaic = (function() {
    * @param {object} types An object containing rendering functions.
    */
   function Trochaic(types) {
-    return {
-      processor: processor(types),
-      render: render,
-    };
+    return render(processor(types));
   }
 
-  /**
-   * Render a template.
-   *
-   * @param {string|object} template A template, either a string or jQuery content.
-   * @param {object} variables A hash keyed by variable name.
-   *
-   * @return {object} The rendered DOM tree.
-   */
-  function render(template, variables) {
-    if (typeof(template) === 'string') template = $('<span>').text(template);
-    template.find('*').addBack() // include all descendants and the top element.
-      .replaceText(/({(?:(\w+):)?(\w+)})/g, this.processor(variables));
-    return template;
+  function render(processor) {
+    /**
+     * Render a template.
+     *
+     * @param {string|object} template A template, either a string or jQuery content.
+     * @param {object} variables A hash keyed by variable name.
+     *
+     * @return {object} The rendered DOM tree.
+     */
+    return function (template, variables) {
+      if (typeof(template) === 'string') template = $('<span>').text(template);
+      template.find('*').addBack() // include all descendants and the top element.
+        .replaceText(/({(?:(\w+):)?(\w+)})/g, processor(variables));
+      return template;
+    }
   }
 
   /**
