@@ -70,7 +70,7 @@ var Trochaic = (function($) {
        * @return {string|object} The rendered output.
        */
       return function(type, args, arg) {
-        args = [args ? args.split(":") : arg];
+        args = args ? args.split(":") : [arg];
         return (get(type || args[0], types) || id).apply(this,
           args.map(function(i) { return i ? get(i, variables) : undefined; })
         );
