@@ -1,0 +1,25 @@
+{
+  "name": "trochaic",
+  "version": "1.0.0",
+  "description": "A minimalistic jQuery-based template engine.",
+  "main": "trochaic.js",
+  "scripts": {
+    "test": "Trochaic({person: function(x) { return $('<strong>').text(x.name); }})('Hello, {person}!', {person: {name: 'You'}}).html();"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cburschka/trochaic.git"
+  },
+  "keywords": [
+    "jquery",
+    "template",
+    "templating",
+    "ecosystem:jquery"
+  ],
+  "author": "Christoph Burschka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cburschka/trochaic/issues"
+  },
+  "homepage": "https://github.com/cburschka/trochaic#readme"
+}
