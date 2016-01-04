@@ -1,8 +1,12 @@
 {
   "name": "trochaic",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A minimalistic jQuery-based template engine.",
   "main": "trochaic.js",
+  "dependencies": {
+    "jquery": ">=1.0",
+    "jquery-replacetext": ">=1.0"
+  },
   "scripts": {
     "test": "Trochaic({person: function(x) { return $('<strong>').text(x.name); }})('Hello, {person}!', {person: {name: 'You'}}).html();"
   },
