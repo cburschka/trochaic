@@ -89,10 +89,9 @@ var Trochaic = (function($) {
    * Retrieve a dot-separated path of properties from an object.
    */
   function get(query, object) {
-    query = query.split('.');
-    for (var i in query) {
-      object = object && object[query[i]] || (typeof object == 'function' && object(query[i]));
-    }
+    $.each(query.split('.'), function(_, token) {
+      object = object && object[token] || ($.isFunction(object) && object(token));
+    });
     return object;
   }
 
