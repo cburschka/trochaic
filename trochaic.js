@@ -11,7 +11,9 @@ var Trochaic = (function($) {
    * @param {object} types An object containing rendering functions.
    */
   function Trochaic(types) {
-    return render(processor(types));
+    this.types = types;
+    this.process = process(types);
+    this.render = render(processor(types));
   }
 
   /**
@@ -46,6 +48,17 @@ var Trochaic = (function($) {
       template.find('*').addBack() // include all descendants and the top element.
         .replaceText(pattern, processor(variables));
       return template;
+    }
+  }
+
+  function process(types) {
+    /**
+     * Return a single processor from a type string.
+     *
+     * Returns the identity function by default.
+     */
+    return function(type) {
+      return get(type, types) || id;
     }
   }
 

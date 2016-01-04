@@ -16,6 +16,9 @@ The placeholder syntax is one of the following:
   the first variable's name as the render type.
 * `{var1}` is short for `{:var1}`.
 
+Both types and variable names can contain periods to refer to nested object
+properties.
+
 ## Requirements
 
 Both [jQuery](https://jquery.com/) and [jQuery replaceText](https://github.com/cburschka/jquery-replacetext)
@@ -41,16 +44,21 @@ var types = {
 }
 ```
 
-Calling `Trochaic({...})` will build and return a render function that can be
-used to render any template:
+A newly constructed `Trochaic` object has a `render()` and a `process()`
+function. The former renders templates, the latter renders a single variable.
 
 ```js
-var render = Trochaic(types)
-render("Hello, {person}", {
+var trochaic = new Trochaic(types)
+trochaic.render("Hello, {person}", {
   person: {
     firstname: 'John',
     lastname: 'Smith'
   }
+});
+
+trochaic.process('person', {
+  firstname: 'John',
+  lastname: 'Smith'
 });
 ```
 
